@@ -15,6 +15,26 @@ class BlacJackGame:
         self.dealer = Dealer()
          
 
+    def start_round(self):
+        for i in range(2):
+              for index, player in enumerate(self.players):
+                   self.shoe.draw(player)
+        self.shoe.draw(self.dealer)
+        
+        for index, player in enumerate(self.players):
+            if player.handvalue
+
+    def play_double_deck(self):
+        game = BlacJackGame(DOUBLE_DECK, 2)
+        game.shoe.shuffleCards
+        game.start_round()
+        
+        
+    
+
+
+
+
 game = BlacJackGame(DOUBLE_DECK, 2)
 game.shoe.shuffleCards()
 print(game.shoe.shoeCount())
