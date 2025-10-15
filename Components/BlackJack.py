@@ -22,10 +22,14 @@ class BlacJackGame:
         self.shoe.draw(self.dealer)
         
         for index, player in enumerate(self.players):
-            if player.handvalue
+            if not player.check_double_As()  or player.check_split():
+                if player.handvalue >= 8 and self.dealer <= 10:
+                     return "H"
     
     def basic_strategy(self, player : Player):
-         if self.dealer.handvalue >= 6 and player.handvalue:
+         if self.dealer.handvalue <= 6 and player.handvalue <= 8:
+              return "H"
+         elif player
               
 
     def play_double_deck(self):
