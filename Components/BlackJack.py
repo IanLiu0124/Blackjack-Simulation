@@ -23,6 +23,10 @@ class BlacJackGame:
         
         for index, player in enumerate(self.players):
             if player.handvalue
+    
+    def basic_strategy(self, player : Player):
+         if self.dealer.handvalue >= 6 and player.handvalue:
+              
 
     def play_double_deck(self):
         game = BlacJackGame(DOUBLE_DECK, 2)

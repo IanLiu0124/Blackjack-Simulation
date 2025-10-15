@@ -15,6 +15,10 @@ class Player:
     def check_double_As(self):
         current_cards = self.hand
         return len(current_cards) == 2 and all(x.display == "A" for x in current_cards)
+    
+    def check_split(self):
+        current_cards = self.hand
+        return len(current_cards) == 2 and current_cards[0].display == current_cards[0].display
     def check_black_jack(self):
         current_cards = self.hand
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
