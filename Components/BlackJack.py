@@ -12,24 +12,29 @@ class BlacJackGame:
     def __init__(self, decks, numPlayers):
         self.shoe = Shoe(decks)
         self.players = [Player() for _ in range(numPlayers)]
+        self.current_players = []
         self.dealer = Dealer()
          
 
-    def start_round(self):
+    def initial_round(self):
+        self.current_players = self.players
         for i in range(2):
-              for index, player in enumerate(self.players):
+              for index, player in enumerate(self.current_players):
                    self.shoe.draw(player)
         self.shoe.draw(self.dealer)
         
-        for index, player in enumerate(self.players):
-            if not player.check_double_As()  or player.check_split():
-                if player.handvalue >= 8 and self.dealer <= 10:
-                     return "H"
+    def check_value(self):
+        for index, player in enumerate(self.current_players):
+            if not player.check_double_As() or player.check_split() or player.check_black_jack:
+                player.check_value()
+                #Here I run basic strategy.
+            
+                
     
-    def basic_strategy(self, player : Player):
-         if self.dealer.handvalue <= 6 and player.handvalue <= 8:
-              return "H"
-         elif player
+    # def basic_strategy(self, player : Player):
+    #      if self.dealer.handvalue <= 6 and player.handvalue <= 8:
+    #           return "H"
+    #      elif player
               
 
     def play_double_deck(self):
