@@ -24,15 +24,45 @@ class Player:
         current_cards = self.hand
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
 
+    # def check_value(self):
+    #     current_cards = self.hand
+    #     handvalue = 0
+    #     if all('A' not in card.display for card in current_cards):
+    #         for card in current_cards:
+    #             handvalue += card.value
+    #     else:
+    #         for card in current_cards:
+    #             if isinstance(card.value, list):
+    #                 value1 = card.value[0]
+    #                 value2 = card.value[1]
+    #             else:
+    #                 handvalue += card.value
+    #         handvalue += value2 if (handvalue + value2 <= 21) else value1
+    #     self.handvalue = handvalue
+
+
+    #Chatgpt version
+    
     def check_value(self):
         current_cards = self.hand
-        if all('A' not in card.display for card in current_cards):
-            for card in current_cards:
+        handvalue = 0
+        aces = 0
+
+        # Step 1: add all non-ace values
+        for card in current_cards:
+            if card.display == "A":
+                aces += 1
+            else:
                 handvalue += card.value
-        else:
-            for card in current_cards:
-                if isinstance(card.value, list):
-                    card.value
+
+        # Step 2: handle aces intelligently
+        # Start by counting them all as 11
+        for _ in range(aces):
+            if handvalue + 11 <= 21:
+                handvalue += 11
+            else:
+                handvalue += 1
+
         self.handvalue = handvalue
 
 
