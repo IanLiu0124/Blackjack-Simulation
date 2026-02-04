@@ -12,6 +12,7 @@ class Player:
 
     def add_card(self, card: Card):
         self.hand.append(card)
+        self.check_value()
 
     
     def check_double_As(self):
@@ -52,14 +53,19 @@ class Player:
         for card in current_cards:
             if card.display == "A":
                 aces += 1
+                handvalue += 11
             else:
                 handvalue += card.value
 
-        for _ in range(aces):
-            if handvalue + 11 <= 21:
-                handvalue += 11
-            else:
-                handvalue += 1
+        while handvalue > 21 and aces > 0:
+            handvalue -= 10
+            aces -= 1
+            
+        # for _ in range(aces):
+        #     if handvalue + 11 <= 21:
+        #         handvalue += 11
+        #     else:
+        #         handvalue += 1
 
         self.handvalue = handvalue
 
