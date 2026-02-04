@@ -72,6 +72,15 @@ class Player:
     def set_bankroll(self, bankroll : int):
         self.bankroll = bankroll
 
+    def result(self, result, **kwargs):
+        if result == 'w':
+            self.bankroll -= kwargs.get('bet', 0)
+            self.win += 1
+        elif result == 'l':
+            self.lose += 1
+        else:
+            self.push += 1
+
     def win(self, bet):
         self.bankroll += bet
         self.wins += 1
