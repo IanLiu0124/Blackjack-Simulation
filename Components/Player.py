@@ -76,11 +76,19 @@ class Player:
                 new_hand.add_card(hand.cards.pop())
                 self.hands.append(new_hand)
 
-
-
-
     def set_bankroll(self, bankroll : int):
         self.bankroll = bankroll
+
+    def decision(self, dealer_card):
+        if self.check_double_As():
+            return 'split'
+        if self.check_black_jack():
+            return 'blackjack'
+        self.check_value()
+
+        self.check_split()
+        return 
+
 
     def result(self, result, **kwargs):
         if result == 'w':

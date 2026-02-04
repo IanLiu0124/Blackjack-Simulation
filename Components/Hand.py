@@ -21,7 +21,8 @@ class Hand:
             return False
         card1 = self.cards[0]
         card2 = self.cards[1]
-
+        if card1.value == 10 or card2.value == 10:
+            return False
         return len(self.cards) == 2 and card1.display == card2.display
     
     def check_value(self):

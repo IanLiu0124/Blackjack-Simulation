@@ -52,6 +52,7 @@ def iniital_deal():
             card = game.shoe.draw()
             player.hands[0].add_card(card)
             if i == 0:
+                global dealer_face_up_card
                 dealer_face_up_card = game.shoe.draw()
                 game.dealer.add_card(dealer_face_up_card)
                 
@@ -63,7 +64,7 @@ def iniital_deal():
     player1.hands[0].check_value()
     print(player1.hands[0].check_black_jack())
     print(player1.hands[0].splittable())
-    player1.split_hand(bet)
+    player1.split_hand(MIN_BET)
 
     for index, hand in enumerate(player1.hands):
         for card in hand.cards:
@@ -76,19 +77,33 @@ def iniital_deal():
     # print(game.shoe.shoeCount())
 
 
+def player_turn():
+    for index, player in enumerate(game.players):
+        decision = player.decision(dealer_face_up_card)
 
 
-
-
+MIN_BET = 25
+BET_SPREAD = {
+    1 : 1,
+    3 : 2,
+    4 : 3,
+    5 : 4,
+    6 : 5,
+    7 : 6,
+    8 : 9,
+    9 : 10,
+    10 : 9
+}
 PLAYERCOUNT = 1
 PLAYER_BANKROLL = 500
+INSURANCE_BET = bet / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
 # game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
-bet = 25
+
 for index, player in enumerate(game.players):
-    player.hands = [Hand(bet)]
+    player.hands = [Hand(MIN_BET)]
 iniital_deal()
 
 

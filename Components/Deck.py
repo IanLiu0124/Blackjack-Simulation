@@ -15,7 +15,7 @@ class Deck:
                 if display in ['J', 'Q', 'K']:
                     cards.append(Card(suit, display, 10))
                 elif display == "A":
-                    cards.append(Card(suit, display, [1, 11]))
+                    cards.append(Card(suit, display, 11))
                 else:
                     value += 1
                     cards.append(Card(suit, display, value))
