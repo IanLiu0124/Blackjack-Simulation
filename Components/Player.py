@@ -80,14 +80,22 @@ class Player:
         self.bankroll = bankroll
 
     def decision(self, dealer_card):
-        if self.check_double_As():
-            return 'split'
         if self.check_black_jack():
             return 'blackjack'
+        if self.check_double_As():
+            return 'split'
         self.check_value()
+        if self.check_split():
+            if dealer_card.value < 7 and  dealer_card.value > 3:
+                return 'split'
+            elif dealer_card.value == 7 and self.handvalue == 14:
+                return 'split'
+            elif dealer_card.value in [8, 9] and self.handvalue == 18:
+                return 'split'
+            elif self.handvalue == 16:
+                return 'split'
 
-        self.check_split()
-        return 
+        return 'stay'
 
 
     def result(self, result, **kwargs):

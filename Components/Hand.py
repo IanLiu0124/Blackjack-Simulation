@@ -16,6 +16,12 @@ class Hand:
         print('\n', self.handvalue)
         print('\n', self.blackjack)
 
+    def check_double_As(self):
+        current_cards = self.hands
+        double_Aces = len(current_cards) == 2 and all(x.display == "A" for x in current_cards)
+        return double_Aces
+
+
     def splittable(self):
         if len(self.cards) < 2:
             return False
@@ -45,5 +51,21 @@ class Hand:
     def check_black_jack(self):
         current_cards = self.cards
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
-            
+    
+    def decision(self, dealer_card):
+        if self.check_black_jack():
+            return 'blackjack'
+        if self.check_double_As():
+            return 'split'
+        self.check_value()
+        if self.check_split():
+            if dealer_card.value < 7 and  dealer_card.value > 3:
+                return 'split'
+            elif dealer_card.value == 7 and self.handvalue == 14:
+                return 'split'
+            elif dealer_card.value in [8, 9] and self.handvalue == 18:
+                return 'split'
+            elif self.handvalue == 16:
+                return 'split'
+        return 'stay'
     
