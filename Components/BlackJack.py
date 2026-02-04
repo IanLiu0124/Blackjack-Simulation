@@ -2,6 +2,7 @@ from Player import Player
 from Dealer import Dealer
 from Card import Card
 from Shoe import Shoe
+from Hand import Hand
 
 
 
@@ -45,24 +46,14 @@ class BlacJackGame:
         
     
 
-
-
-PLAYERCOUNT = 1
-PLAYER_BANKROLL = 500
-game = BlacJackGame(DOUBLE_DECK, PLAYERCOUNT)
-game.shoe.shuffleCards()
-# print(game.shoe.shoeCount())
-game.players[0].set_bankroll(PLAYER_BANKROLL)
-bet = 25
-
-def inital_deal():
+def iniital_deal():
     for i in range(2):
         for index, player in enumerate(game.players):
             card = game.shoe.draw()
-            player.add_card(card)
+            player.hands[0].add_card(card)
 
     for index, player in enumerate(game.players):
-            for card in player.hands:
+            for card in player.hands[0].cards:
                 print(f"player {index} : {card.display_card()}")
 
     dealer_face_up_card = game.shoe.draw()
@@ -73,6 +64,20 @@ def inital_deal():
 
 
 
+
+
+
+PLAYERCOUNT = 1
+PLAYER_BANKROLL = 500
+game = BlacJackGame(DOUBLE_DECK, PLAYERCOUNT)
+game.shoe.shuffleCards()
+# print(game.shoe.shoeCount())
+game.players[0].set_bankroll(PLAYER_BANKROLL)
+bet = 25
+for index, player in enumerate(game.players):
+    player.hands = [Hand(bet)]
+
+iniital_deal()
 
 
 

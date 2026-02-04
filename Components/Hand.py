@@ -9,6 +9,12 @@ class Hand:
 
     def add_card(self, card):
         self.cards.append(card)
+    
+    def display_self(self):
+        print('\n', self.bet)
+        print('\n', self.cards)
+        print('\n', self.handvalue)
+        print('\n', self.blackjack)
 
     
     def check_value(self):
