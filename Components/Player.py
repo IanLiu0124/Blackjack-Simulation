@@ -8,6 +8,7 @@ class Player:
         self.loses = 0
         self.pushes = 0
 
+
     def add_card(self, card: Card):
         self.hands.append(card)
         self.check_value()
@@ -67,6 +68,15 @@ class Player:
 
         self.handvalue = handvalue
         # print(handvalue)
+
+    def split_hand(self, betsize):
+        for hand in self.hands:
+            if hand.splittable():
+                new_hand = Hand(betsize)
+                new_hand.add_card(hand.cards.pop())
+                self.hands.append(new_hand)
+
+
 
 
     def set_bankroll(self, bankroll : int):

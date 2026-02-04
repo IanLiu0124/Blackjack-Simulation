@@ -59,9 +59,16 @@ def iniital_deal():
     for index, player in enumerate(game.players):
             for card in player.hands[0].cards:
                 print(f"player {index} : {card.display_card()}")
-    game.players[0].hands[0].check_value()
-    print(game.players[0].hands[0].check_black_jack())
-    print(game.players[0].hands[0].splittable())
+    player1 = game.players[0]
+    player1.hands[0].check_value()
+    print(player1.hands[0].check_black_jack())
+    print(player1.hands[0].splittable())
+    player1.split_hand(bet)
+
+    for index, hand in enumerate(player1.hands):
+        for card in hand.cards:
+            print(f"Hand {index} : {card.display_card()}")
+
     # dealer_face_up_card = game.shoe.draw()
     # game.dealer.add_card(dealer_face_up_card)
     for card in game.dealer.hands:

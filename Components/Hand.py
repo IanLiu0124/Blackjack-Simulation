@@ -17,7 +17,7 @@ class Hand:
         print('\n', self.blackjack)
 
     def splittable(self):
-        if len(self.cards) > 2:
+        if len(self.cards) < 2:
             return False
         card1 = self.cards[0]
         card2 = self.cards[1]
