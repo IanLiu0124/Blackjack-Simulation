@@ -17,10 +17,12 @@ class Hand:
         print('\n', self.blackjack)
 
     def splittable(self):
+        if len(self.cards) > 2:
+            return False
         card1 = self.cards[0]
         card2 = self.cards[1]
 
-        return card1.display == card2.display
+        return len(self.cards) == 2 and card1.display == card2.display
     
     def check_value(self):
         handvalue = 0
