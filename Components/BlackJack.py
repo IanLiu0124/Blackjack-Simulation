@@ -53,16 +53,18 @@ game.shoe.shuffleCards()
 print(game.shoe.shoeCount())
 for i in range(2):
     for index, player in enumerate(game.players):
-        game.shoe.draw(player)
+        card = game.shoe.draw()
+        player.add_card(card)
 
 for index, player in enumerate(game.players):
-        for card in player.hand:
+        for card in player.hands:
             print(f"player {index} : {card.display_card()}")
 
 
 
-game.shoe.draw(game.dealer)
-for card in game.dealer.hand:
+dealer_face_up_card = game.shoe.draw()
+game.dealer.add_card(dealer_face_up_card)
+for card in game.dealer.hands:
     print(f"Dealer Faceup Card: {card.display_card()}")
 print(game.shoe.shoeCount())
 

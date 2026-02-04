@@ -1,31 +1,29 @@
 from Card import Card
-
+from Hand import Hand
 class Player:
     def __init__(self, bankroll = 0):
         self.bankroll = bankroll
-        self.hand = []
-        self.handvalue = 0
-        self.blackjack = False
+        self.hands = []
         self.wins = 0
         self.loses = 0
         self.pushes = 0
 
     def add_card(self, card: Card):
-        self.hand.append(card)
+        self.hands.append(card)
         self.check_value()
 
     
     def check_double_As(self):
-        current_cards = self.hand
+        current_cards = self.hands
         self.blackjack = len(current_cards) == 2 and all(x.display == "A" for x in current_cards)
         return self.blackjack
     
     def check_split(self):
-        current_cards = self.hand
+        current_cards = self.hands
         return len(current_cards) == 2 and current_cards[0].display == current_cards[0].display 
     
     def check_black_jack(self):
-        current_cards = self.hand
+        current_cards = self.hands
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
 
     # def check_value(self):
@@ -47,7 +45,7 @@ class Player:
 
     
     def check_value(self):
-        current_cards = self.hand
+        current_cards = self.hands
         handvalue = 0
         aces = 0
         for card in current_cards:

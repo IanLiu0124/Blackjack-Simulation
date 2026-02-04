@@ -38,9 +38,11 @@ class Shoe:
                 self.shoeCards.insert(swappingIndex, card) #This should insert card at the swapping index. Reverse is used as originally it would reverse the index
                 
 
-    def draw(self, person: Player | Dealer):
+    def draw(self):
         drawnCard = self.shoeCards.pop()
-        person.add_card(drawnCard)
+        # person: Player | Dealer
+        # person.add_card(drawnCard)
+        return drawnCard
             
     def shoeCount(self):
         return len(self.shoeCards)
