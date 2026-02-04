@@ -16,6 +16,11 @@ class Hand:
         print('\n', self.handvalue)
         print('\n', self.blackjack)
 
+    def splittable(self):
+        card1 = self.cards[0]
+        card2 = self.cards[1]
+
+        return card1.display == card2.display
     
     def check_value(self):
         handvalue = 0

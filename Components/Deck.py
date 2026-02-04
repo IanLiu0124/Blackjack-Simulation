@@ -27,7 +27,7 @@ class Deck:
         cards = []
 
         cards.append(Card('Spade', 'J', 10))
-        cards.append(Card('Spade', 'A', [1,11]))
+        cards.append(Card('Spade', 'K', 10))
         cards.append(Card('Spade', 'Q', 10))
         cards.append(Card('Spade', 'K', 10))
         return cards

@@ -61,6 +61,7 @@ def iniital_deal():
                 print(f"player {index} : {card.display_card()}")
     game.players[0].hands[0].check_value()
     print(game.players[0].hands[0].check_black_jack())
+    print(game.players[0].hands[0].splittable())
     # dealer_face_up_card = game.shoe.draw()
     # game.dealer.add_card(dealer_face_up_card)
     for card in game.dealer.hands:
