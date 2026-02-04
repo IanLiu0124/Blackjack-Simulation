@@ -32,5 +32,10 @@ class Hand:
                 handvalue -= 10
                 aces -= 1
         self.handvalue = handvalue    
+        print(self.handvalue)
+
+    def check_black_jack(self):
+        current_cards = self.cards
+        return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
             
     

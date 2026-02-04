@@ -5,7 +5,7 @@ from Shoe import Shoe
 from Hand import Hand
 
 
-
+SINGLE_DECK = 1
 DOUBLE_DECK = 2
 SIX_DECK = 6
 
@@ -51,16 +51,21 @@ def iniital_deal():
         for index, player in enumerate(game.players):
             card = game.shoe.draw()
             player.hands[0].add_card(card)
+            if i == 0:
+                dealer_face_up_card = game.shoe.draw()
+                game.dealer.add_card(dealer_face_up_card)
+                
 
     for index, player in enumerate(game.players):
             for card in player.hands[0].cards:
                 print(f"player {index} : {card.display_card()}")
-
-    dealer_face_up_card = game.shoe.draw()
-    game.dealer.add_card(dealer_face_up_card)
+    game.players[0].hands[0].check_value()
+    print(game.players[0].hands[0].check_black_jack())
+    # dealer_face_up_card = game.shoe.draw()
+    # game.dealer.add_card(dealer_face_up_card)
     for card in game.dealer.hands:
         print(f"Dealer Faceup Card: {card.display_card()}")
-    print(game.shoe.shoeCount())
+    # print(game.shoe.shoeCount())
 
 
 
@@ -69,14 +74,13 @@ def iniital_deal():
 
 PLAYERCOUNT = 1
 PLAYER_BANKROLL = 500
-game = BlacJackGame(DOUBLE_DECK, PLAYERCOUNT)
-game.shoe.shuffleCards()
+game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
+# game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 bet = 25
 for index, player in enumerate(game.players):
     player.hands = [Hand(bet)]
-
 iniital_deal()
 
 

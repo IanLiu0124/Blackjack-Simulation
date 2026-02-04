@@ -7,16 +7,23 @@ from random import randint
 class Shoe:
     def __init__(self, numOfDecks):
         self.numOfDecks = numOfDecks
-        self.shoeCards = self.generateShoe()
+        self.shoeCards = self.generateTestShoe()
 
     def generateShoe(self):
         cards = []
         for deck in range(self.numOfDecks):
-
             deck = Deck()
             deck.generate_deck
             cards.extend(deck.cards)
         return cards
+    def generateTestShoe(self):
+        #This shoe will give 1 player blackjack and dealer 20
+        cards = []
+        deck = Deck()
+        # deck.test_deck()
+        cards.extend(deck.cards)
+        return cards
+
     
     def showShoe(self):
         for card in self.shoeCards:
