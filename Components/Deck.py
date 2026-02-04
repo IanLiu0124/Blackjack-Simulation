@@ -10,7 +10,7 @@ class Deck:
         cards = []
         
         for suit in suits:
-            value = 0
+            value = 1
             for display in displays:
                 if display in ['J', 'Q', 'K']:
                     cards.append(Card(suit, display, 10))
@@ -20,3 +20,4 @@ class Deck:
                     value += 1
                     cards.append(Card(suit, display, value))
         return cards
+    

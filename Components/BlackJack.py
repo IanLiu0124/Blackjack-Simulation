@@ -47,8 +47,8 @@ class BlacJackGame:
 
 
 
-
-game = BlacJackGame(DOUBLE_DECK, 2)
+PLAYERCOUNT = 1
+game = BlacJackGame(DOUBLE_DECK, PLAYERCOUNT)
 game.shoe.shuffleCards()
 print(game.shoe.shoeCount())
 for i in range(2):

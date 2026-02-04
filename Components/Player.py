@@ -68,6 +68,7 @@ class Player:
         #         handvalue += 1
 
         self.handvalue = handvalue
+        # print(handvalue)
 
 
     def set_bankroll(self, bankroll : int):
