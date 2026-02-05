@@ -68,7 +68,7 @@ def iniital_deal():
         
             #Split Check Testing
     player1 = game.players[0]
-    print(player1.hands[0].check_double_Aces())
+    # 
     # player1.hands[0].check_value()
     # print(player1.hands[0].check_black_jack())
     # print(player1.hands[0].splittable())
@@ -78,7 +78,13 @@ def iniital_deal():
     #     for card in hand.cards:
     #         print(f"Hand {index} : {card.display_card()}")
 
-
+        #Double Aces into split
+    print(player1.hands[0].check_double_Aces())
+    print(player1.hands[0].splittable())
+    player1.split_hand(MIN_BET) 
+    for index, hand in enumerate(player1.hands):
+        for card in hand.cards:
+            print(f"Hand {index} : {card.display_card()}")
     # print(game.shoe.shoeCount())
 
 
