@@ -101,6 +101,8 @@ def players_turn(dealer_face_up_card):
                         hand.finish_turn()
                     case 'blackjack':
                         hand.finish_turn()
+                    case 'split':
+                        hand.finish_tun()
             print(f"Hand Finished. Player {index} End with {hand.handvalue} {decision}")
 def dealer_turn(decision):
     return
@@ -119,7 +121,7 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 2
+PLAYERCOUNT = 10
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
