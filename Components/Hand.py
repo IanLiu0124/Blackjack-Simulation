@@ -6,10 +6,14 @@ class Hand:
         self.cards = []
         self.handvalue = 0
         self.blackjack = False
+        self.finished = False
 
     def add_card(self, card):
         self.cards.append(card)
     
+    def finish_turn(self):
+        self.finished = True
+
     def display_self(self):
         print('\n', self.bet)
         print('\n', self.cards)
@@ -46,7 +50,8 @@ class Hand:
                 handvalue -= 10
                 aces -= 1
         self.handvalue = handvalue    
-        print(self.handvalue)
+        return handvalue
+
 
     def check_black_jack(self):
         current_cards = self.cards
@@ -55,10 +60,12 @@ class Hand:
     def decision(self, dealer_card):
         if self.check_black_jack():
             return 'blackjack'
-        if self.check_double_As():
+        elif self.check_double_Aces():
             return 'split'
         self.check_value()
-        if self.check_split():
+        if self.check_bust():
+            return 'bust'
+        if self.splittable():
             if dealer_card.value < 7 and  dealer_card.value > 3:
                 return 'split'
             elif dealer_card.value == 7 and self.handvalue == 14:
@@ -67,5 +74,22 @@ class Hand:
                 return 'split'
             elif self.handvalue == 16:
                 return 'split'
+        elif self.handvalue > 17:
+            return 'stay'
+        elif self.handvalue == 11:
+            return 'double'
+        elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
+            return 'double'
+        elif self.handvalue == 10 and dealer_card.value <= 9:
+            return 'double'
+        elif self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
+            return 'hit'
+        
         return 'stay'
     
+
+
+    def check_bust(self):
+        print('checkbust run')
+        return self.handvalue > 21
+            

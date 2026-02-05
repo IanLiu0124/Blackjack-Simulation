@@ -57,14 +57,10 @@ def iniital_deal():
                 game.dealer.add_card(dealer_face_up_card)
                 
 
-    for index, player in enumerate(game.players):
-            for card in player.hands[0].cards:
-                print(f"player {index} : {card.display_card()}")
-
     for card in game.dealer.hands:
         print(f"Dealer Faceup Card: {card.display_card()}")
     
-
+    players_turn()
         
             #Split Check Testing
     player1 = game.players[0]
@@ -79,18 +75,41 @@ def iniital_deal():
     #         print(f"Hand {index} : {card.display_card()}")
 
         #Double Aces into split
-    print(player1.hands[0].check_double_Aces())
-    print(player1.hands[0].splittable())
-    player1.split_hand(MIN_BET) 
-    for index, hand in enumerate(player1.hands):
-        for card in hand.cards:
-            print(f"Hand {index} : {card.display_card()}")
+    # print(player1.hands[0].check_double_Aces())
+    # print(player1.hands[0].splittable())
+    # player1.split_hand(MIN_BET) 
+    # for index, hand in enumerate(player1.hands):
+    #     for card in hand.cards:
+    #         print(f"Hand {index} : {card.display_card()}")
     # print(game.shoe.shoeCount())
 
 
-def player_turn():
+def players_turn():
     for index, player in enumerate(game.players):
-        decision = player.decision(dealer_face_up_card)
+        for index, hand in enumerate(player.hands):
+            for card in player.hands[0].cards:
+                print(f"player {index} : {card.display_card()}")
+            print(f"Player {index} : Total Value = {player.hands[0].check_value()}")
+            while hand.finished == False:
+                decision = hand.decision(dealer_face_up_card)
+                print(decision)
+                match decision:
+                    case "stay":
+                        hand.finish_turn()
+                    case "hit":
+                        new_card = game.shoe.draw()
+                        hand.add_card(new_card)
+                        print(f"New Card : {new_card.display_card()}")
+                        continue
+                    case "double":
+                        new_card = game.shoe.draw()
+                        hand.add_card(new_card)
+                        print(f"New Card : {new_card.display_card()}")
+                        hand.finish_turn()
+                    case "bust":
+                        hand.finish_turn()
+            print(f"Hand Finished. Player End with {hand.handvalue} {decision}")
+                    
 
 
 MIN_BET = 25

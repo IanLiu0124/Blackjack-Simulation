@@ -26,8 +26,9 @@ class Deck:
         displays = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         cards = []
 
-        cards.append(Card('Spade', 'J', 10))
-        cards.append(Card('Spade', 'A', 11))
-        cards.append(Card('Spade', 'Q', 10))
-        cards.append(Card('Spade', 'A', 11))
+        cards.append(Card('Spade', 'J', 10)) #Dealer Second Card
+        cards.append(Card('Spade', '5', 5)) #Player third Card
+        cards.append(Card('Spade', '6', 6)) #player second card
+        cards.append(Card('Spade', '7', 7)) #Dealer Card
+        cards.append(Card('Spade', '7', 7)) #Player first Card
         return cards
