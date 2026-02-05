@@ -16,8 +16,8 @@ class Hand:
         print('\n', self.handvalue)
         print('\n', self.blackjack)
 
-    def check_double_As(self):
-        current_cards = self.hands
+    def check_double_Aces(self):
+        current_cards = self.cards
         double_Aces = len(current_cards) == 2 and all(x.display == "A" for x in current_cards)
         return double_Aces
 

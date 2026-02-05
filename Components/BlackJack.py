@@ -60,20 +60,25 @@ def iniital_deal():
     for index, player in enumerate(game.players):
             for card in player.hands[0].cards:
                 print(f"player {index} : {card.display_card()}")
-    player1 = game.players[0]
-    player1.hands[0].check_value()
-    print(player1.hands[0].check_black_jack())
-    print(player1.hands[0].splittable())
-    player1.split_hand(MIN_BET)
 
-    for index, hand in enumerate(player1.hands):
-        for card in hand.cards:
-            print(f"Hand {index} : {card.display_card()}")
-
-    # dealer_face_up_card = game.shoe.draw()
-    # game.dealer.add_card(dealer_face_up_card)
     for card in game.dealer.hands:
         print(f"Dealer Faceup Card: {card.display_card()}")
+    
+
+        
+            #Split Check Testing
+    player1 = game.players[0]
+    print(player1.hands[0].check_double_Aces())
+    # player1.hands[0].check_value()
+    # print(player1.hands[0].check_black_jack())
+    # print(player1.hands[0].splittable())
+    # player1.split_hand(MIN_BET)
+
+    # for index, hand in enumerate(player1.hands):
+    #     for card in hand.cards:
+    #         print(f"Hand {index} : {card.display_card()}")
+
+
     # print(game.shoe.shoeCount())
 
 
@@ -96,7 +101,7 @@ BET_SPREAD = {
 }
 PLAYERCOUNT = 1
 PLAYER_BANKROLL = 500
-INSURANCE_BET = bet / 2
+INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
 # game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
