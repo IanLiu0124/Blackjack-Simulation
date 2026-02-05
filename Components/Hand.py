@@ -79,7 +79,8 @@ class Hand:
                 return 'split'
             elif dealer_card.value in  [4, 5, 6] and self.handvalue == 8:
                 return 'split'
-            elif dealer_card.value <= 2 and dealer_card.value <= 7
+            elif dealer_card.value <= 2 and dealer_card.value <= 7 and self.handvalue in [4, 6, 12]:
+                return 'split'
 
         elif self.handvalue > 17:
             return 'stay'
