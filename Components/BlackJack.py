@@ -15,6 +15,7 @@ class BlacJackGame:
         self.players = [Player() for _ in range(numPlayers)]
         self.current_players = []
         self.dealer = Dealer()
+        self.game_state = False #False = Game Over, True = Game Still Going. 
          
 
     def initial_round(self):
@@ -24,43 +25,32 @@ class BlacJackGame:
                    self.shoe.draw(player)
         self.shoe.draw(self.dealer)
         
-    def check_value(self):
-        for index, player in enumerate(self.current_players):
-            if not player.check_double_As() or player.check_split() or player.check_black_jack:
-                player.check_value()
-                #Here I run basic strategy.
-            
-                
-    
-    # def basic_strategy(self, player : Player):
-    #      if self.dealer.handvalue <= 6 and player.handvalue <= 8:
-    #           return "H"
-    #      elif player
-              
+
 
     def play_double_deck(self):
         game = BlacJackGame(DOUBLE_DECK, 2)
         game.shoe.shuffleCards
-        game.start_round()
+        game.initial_deal()
+
+    
         
         
     
 
-def iniital_deal():
-    for i in range(2):
+def initial_deal():
+    for i in range(2): #Initla round, deals 2 cards to players.
         for index, player in enumerate(game.players):
             card = game.shoe.draw()
             player.hands[0].add_card(card)
-            if i == 0:
-                global dealer_face_up_card
-                dealer_face_up_card = game.shoe.draw()
-                game.dealer.add_card(dealer_face_up_card)
+        if i == 0: #Initial Round, deals one card to dealer
+            dealer_face_up_card = game.shoe.draw()
+            game.dealer.add_card(dealer_face_up_card)
                 
 
     for card in game.dealer.hands:
         print(f"Dealer Faceup Card: {card.display_card()}")
     
-    players_turn()
+    players_turn(dealer_face_up_card)
         
             #Split Check Testing
     player1 = game.players[0]
@@ -84,14 +74,14 @@ def iniital_deal():
     # print(game.shoe.shoeCount())
 
 
-def players_turn():
+def players_turn(dealer_face_up_card):
     for index, player in enumerate(game.players):
-        for index, hand in enumerate(player.hands):
+        for hand_index, hand in enumerate(player.hands):
             for card in player.hands[0].cards:
                 print(f"player {index} : {card.display_card()}")
             print(f"Player {index} : Total Value = {player.hands[0].check_value()}")
             while hand.finished == False:
-                decision = hand.decision(dealer_face_up_card)
+                decision = hand.basic_strategy(dealer_face_up_card)
                 print(decision)
                 match decision:
                     case "stay":
@@ -105,10 +95,15 @@ def players_turn():
                         new_card = game.shoe.draw()
                         hand.add_card(new_card)
                         print(f"New Card : {new_card.display_card()}")
+                        hand.check_value()
                         hand.finish_turn()
                     case "bust":
                         hand.finish_turn()
-            print(f"Hand Finished. Player End with {hand.handvalue} {decision}")
+                    case 'blackjack':
+                        hand.finish_turn()
+            print(f"Hand Finished. Player {index} End with {hand.handvalue} {decision}")
+def dealer_turn(decision):
+    return
                     
 
 
@@ -124,17 +119,17 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 1
+PLAYERCOUNT = 2
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
-# game.shoe.shuffleCards()
-# print(game.shoe.shoeCount())
+game.shoe.shuffleCards()
+print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 
 for index, player in enumerate(game.players):
     player.hands = [Hand(MIN_BET)]
-iniital_deal()
+initial_deal()
 
 
 

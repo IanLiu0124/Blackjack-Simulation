@@ -7,6 +7,7 @@ class Hand:
         self.handvalue = 0
         self.blackjack = False
         self.finished = False
+        self.busted = False
 
     def add_card(self, card):
         self.cards.append(card)
@@ -31,10 +32,10 @@ class Hand:
             return False
         card1 = self.cards[0]
         card2 = self.cards[1]
-        if card1.value == 10 or card2.value == 10:
+        if any(value in {5, 10} for value in (card1, card2)):
             return False
         return len(self.cards) == 2 and card1.display == card2.display
-    
+
     def check_value(self):
         handvalue = 0
         aces = 0
@@ -57,7 +58,7 @@ class Hand:
         current_cards = self.cards
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
     
-    def decision(self, dealer_card):
+    def basic_strategy(self, dealer_card):
         if self.check_black_jack():
             return 'blackjack'
         elif self.check_double_Aces():
@@ -67,22 +68,25 @@ class Hand:
             return 'bust'
         if self.splittable():
             if dealer_card.value < 7 and  dealer_card.value > 3:
-                return 'split'
+                return 'stay'
             elif dealer_card.value == 7 and self.handvalue == 14:
-                return 'split'
+                return 'stay'
             elif dealer_card.value in [8, 9] and self.handvalue == 18:
-                return 'split'
+                return 'stay'
             elif self.handvalue == 16:
-                return 'split'
+                return 'stay'
         elif self.handvalue > 17:
             return 'stay'
-        elif self.handvalue == 11:
-            return 'double'
-        elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
-            return 'double'
-        elif self.handvalue == 10 and dealer_card.value <= 9:
-            return 'double'
+        elif len(self.cards) == 2:    
+            if self.handvalue == 11:
+                return 'double'
+            elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
+                return 'double'
+            elif self.handvalue == 10 and dealer_card.value <= 9:
+                return 'double'
         elif self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
+            return 'hit'
+        elif self.handvalue < 17 and dealer_card.value >= 7:
             return 'hit'
         
         return 'stay'
@@ -90,6 +94,6 @@ class Hand:
 
 
     def check_bust(self):
-        print('checkbust run')
+        self.busted = True
         return self.handvalue > 21
             
