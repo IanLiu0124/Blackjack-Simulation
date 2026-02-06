@@ -65,6 +65,7 @@ class Hand:
             return 'split'
         self.check_value()
         if self.check_bust():
+            self.busted = True
             return 'bust'
         if self.splittable():
             if self.handvalue == 16:
@@ -79,23 +80,22 @@ class Hand:
                 return 'split'
             elif dealer_card.value in  [4, 5, 6] and self.handvalue == 8:
                 return 'split'
-            elif dealer_card.value <= 2 and dealer_card.value <= 7 and self.handvalue in [4, 6, 12]:
+            elif dealer_card.value >= 2 and dealer_card.value <= 7 and self.handvalue in [4, 6, 12]:
                 return 'split'
 
         elif self.handvalue > 17:
             return 'stay'
-        elif len(self.cards) == 2:    
+        if len(self.cards) == 2:    
             if self.handvalue == 11:
                 return 'double'
             elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
                 return 'double'
             elif self.handvalue == 10 and dealer_card.value <= 9:
                 return 'double'
+            if self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
+                return 'hit'
         elif self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
             return 'hit'
-        elif self.handvalue < 17 and dealer_card.value >= 7:
-            return 'hit'
-        
         return 'stay'
     
 

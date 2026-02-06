@@ -75,6 +75,7 @@ def initial_deal():
 
 
 def players_turn(dealer_face_up_card):
+    print(dealer_face_up_card.value)
     for index, player in enumerate(game.players):
         for hand_index, hand in enumerate(player.hands):
             for card in player.hands[0].cards:
@@ -90,7 +91,7 @@ def players_turn(dealer_face_up_card):
                         new_card = game.shoe.draw()
                         hand.add_card(new_card)
                         print(f"New Card : {new_card.display_card()}")
-                        continue
+                        hand.check_value()
                     case "double":
                         new_card = game.shoe.draw()
                         hand.add_card(new_card)
@@ -102,7 +103,7 @@ def players_turn(dealer_face_up_card):
                     case 'blackjack':
                         hand.finish_turn()
                     case 'split':
-                        hand.finish_tun()
+                        hand.finish_turn()
             print(f"Hand Finished. Player {index} End with {hand.handvalue} {decision}")
 def dealer_turn(decision):
     return
