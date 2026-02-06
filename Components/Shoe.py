@@ -7,7 +7,7 @@ from random import randint
 class Shoe:
     def __init__(self, numOfDecks):
         self.numOfDecks = numOfDecks
-        self.shoeCards = self.generateShoe()
+        self.shoeCards = self.generateTestShoe()
 
     def generateShoe(self):
         cards = []

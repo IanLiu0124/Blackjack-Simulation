@@ -2,7 +2,7 @@ from Card import Card
 
 class Deck:
     def __init__(self):
-        self.cards = self.generate_deck()
+        self.cards = self.test_deck()
     
     def generate_deck(self):
         suits = ['Spade', 'Heart', 'Club', 'Diamond']
@@ -33,7 +33,7 @@ class Deck:
         cards.append(Card('Spade', '7', 7)) #Player1 third Card
         cards.append(Card('Spade', 'J', 10))#player2 sec Card
         cards.append(Card('Spade', '5', 5)) #Player1 sec Card
-        cards.append(Card('Spade', '7', 7)) #Dealer First card
-        cards.append(Card('Spade', '7', 7)) #Player2 fisrt Card
-        cards.append(Card('Spade', '2', 2)) #Player1 first Card
+        cards.append(Card('Spade', '6', 6)) #P S card
+        cards.append(Card('Spade', '6', 6)) #D fisrt Card
+        cards.append(Card('Spade', '6', 6)) #Player1 first Card
         return cards

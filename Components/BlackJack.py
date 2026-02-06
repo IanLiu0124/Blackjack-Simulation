@@ -106,7 +106,7 @@ def players_turn(dealer_face_up_card):
                     case 'blackjack':
                         hand.finish_turn()
                     case 'split':
-                        hand.finish_turn()
+                        player.split_hand(MIN_BET)
             print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
 
 def dealer_turn():
@@ -130,6 +130,8 @@ def dealer_turn():
                     print(f"New Card : {new_card.display_card()}")
                 case 'bust':
                     dealer_hand.finish_turn()
+                case 'blackjack':
+                    dealer_hand.finish_turn()
 
         print(f"Hand Finished. Dealer End with {dealer_hand.handvalue} {dealer_decision}")
 
@@ -145,7 +147,7 @@ def resolve():
         for hand_index, hand in enumerate(player.hands):
             if not hand.busted:
                 if dealer_busted:
-                    print(f'Dealer Busted! {index} - hand {hand_index} won with {hand.handvalue}')
+                    print(f'Dealer Busted! Player {index} - hand {hand_index} won with {hand.handvalue}')
                 elif hand.handvalue > dealer_end_value:
                     print(f'Player {index} - hand {hand_index} won with {hand.handvalue} over dealer {dealer_end_value}')
                 elif hand.handvalue == dealer_end_value:
@@ -168,11 +170,11 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 5
+PLAYERCOUNT = 1
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
-game.shoe.shuffleCards()
+# game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 
