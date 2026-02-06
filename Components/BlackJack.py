@@ -39,7 +39,7 @@ class BlacJackGame:
         for index, player in enumerate(game.players):
             player.hands = [Hand(bet = MIN_BET)]
         # self.initial_deal()
-
+        
         game.shoe.shuffleCards()
         for card in game.shoe.shoeCards:
             print(card.display_card())

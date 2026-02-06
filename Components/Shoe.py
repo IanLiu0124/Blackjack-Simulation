@@ -9,6 +9,7 @@ class Shoe:
         self.numOfDecks = numOfDecks
         self.shoeCards = self.generateShoe()
         self.cut_card = 40
+        self.cut_card_drawn = False
 
     def generateShoe(self):
         cards = []
@@ -49,6 +50,10 @@ class Shoe:
 
     def draw(self):
         drawnCard = self.shoeCards.pop()
+        if drawnCard.display == "CUT_CARD":
+            self.cut_card_drawn = True
+            new_card = self.shoeCard.pop()
+            return new_card
         # person: Player | Dealer
         # person.add_card(drawnCard)
         return drawnCard
