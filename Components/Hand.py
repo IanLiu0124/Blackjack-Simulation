@@ -1,8 +1,8 @@
 from Card import Card
 
 class Hand:
-    def __init__(self, bet):
-        self.bet = bet
+    def __init__(self, **kwargs):
+        self.bet =  kwargs.get('bet', 0)
         self.cards = []
         self.handvalue = 0
         self.blackjack = False
@@ -105,11 +105,14 @@ class Hand:
             return 'hit'
         elif self.handvalue > 21:
             return 'bust'
-        else:
+        elif self.handvalue >= 17:
             return 'stay'
 
 
     def check_bust(self):
-        self.busted = True
-        return self.handvalue > 21
+        if self.handvalue > 21:
+            self.busted = True
+            return True
+        else:
+            return False
             
