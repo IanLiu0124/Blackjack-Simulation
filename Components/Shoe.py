@@ -17,6 +17,7 @@ class Shoe:
             deck.generate_deck
             cards.extend(deck.cards)
         return cards
+    
     def generateTestShoe(self):
         #This shoe will give 1 player blackjack and dealer 20
         cards = []
@@ -56,8 +57,9 @@ class Shoe:
         return len(self.shoeCards)
                             
     def insert_cut_card(self):
-        insert_index = len(self.shoeCards) * (self.cut_card - 1 / 100) #-1 because index starts at 0
+        insert_index = len(self.shoeCards) * ((self.cut_card - 1) / 100) #-1 because index starts at 0
+        print(int(insert_index))
         CUT_CARD = Card('CUT_CARD', 'CUT_CARD', 0)
-        self.shoeCards.insert(insert_index, CUT_CARD)
+        self.shoeCards.insert(int(insert_index), CUT_CARD)
         
         

@@ -38,8 +38,13 @@ class BlacJackGame:
     def game_start(self):
         for index, player in enumerate(game.players):
             player.hands = [Hand(bet = MIN_BET)]
-        self.initial_deal()
-    
+        # self.initial_deal()
+
+        game.shoe.shuffleCards()
+        for card in game.shoe.shoeCards:
+            print(card.display_card())
+
+
 
     def initial_deal(self):
         for i in range(2): #Initla round, deals 2 cards to players.
@@ -203,12 +208,9 @@ PLAYERCOUNT = 10
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
-game.shoe.shuffleCards()
+# game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
-
-
-
 game.game_start()
 
 
