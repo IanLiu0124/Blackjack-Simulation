@@ -83,7 +83,7 @@ def players_turn(dealer_face_up_card):
         for hand_index, hand in enumerate(player.hands):
             for card in hand.cards:
                 print(f"player {index} : {card.display_card()}")
-            print(f"Player {index} : Total Value = {player.hands[0].check_value()}")
+            print(f"Player {index} : Total Value = {hand.check_value()}")
             while hand.finished == False:
                 decision = hand.basic_strategy(dealer_face_up_card)
                 print(decision)
@@ -107,6 +107,10 @@ def players_turn(dealer_face_up_card):
                         hand.finish_turn()
                     case 'split':
                         player.split_hand(MIN_BET)
+                        new_card = game.shoe.draw()
+                        hand.add_card(new_card)
+                        print(f'New card {new_card.display_card()}')
+                        hand.check_value()
                     case 'splitAces':
                         player.split_hand(MIN_BET)
                         new_card = game.shoe.draw()
@@ -117,6 +121,7 @@ def players_turn(dealer_face_up_card):
                         new_card = game.shoe.draw()
                         hand.add_card(new_card)
                         print(f"Split Ace, only one card: {new_card.display_card()}")
+                        hand.check_value()
                         hand.finish_turn()
 
             print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
