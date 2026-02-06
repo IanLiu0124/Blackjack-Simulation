@@ -13,6 +13,7 @@ class Hand:
         self.cards.append(card)
     
     def finish_turn(self):
+        self.check_value()
         self.finished = True
 
     def display_self(self):
@@ -59,6 +60,7 @@ class Hand:
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
     
     def basic_strategy(self, dealer_card):
+        self.check_value()
         if len(self.cards) == 1:
             if self.cards[0].display == 'A':
                 return 'singleAce'
@@ -66,7 +68,6 @@ class Hand:
             return 'blackjack'
         elif self.check_double_Aces():
             return 'split'
-        self.check_value()
         if self.check_bust():
             self.busted = True
             return 'bust'
@@ -116,6 +117,7 @@ class Hand:
 
 
     def check_bust(self):
+        self.check_value()
         if self.handvalue > 21:
             self.busted = True
             return True

@@ -32,31 +32,33 @@ class BlacJackGame:
         game.shoe.shuffleCards
         game.initial_deal()
 
-    
-        
-        
-    
 
-def initial_deal():
-    for i in range(2): #Initla round, deals 2 cards to players.
+    
+    def game_start(self):
         for index, player in enumerate(game.players):
-            card = game.shoe.draw()
-            player.hands[0].add_card(card)
-        if i == 0: #Initial Round, deals one card to dealer
-            dealer_face_up_card = game.shoe.draw()
-            game.dealer.hands = [Hand()]
-            game.dealer.hands[0].add_card(dealer_face_up_card)
-                
-
-    for card in game.dealer.hands[0].cards:
-        print(f"Dealer Faceup Card: {card.display_card()}")
+            player.hands = [Hand(bet = MIN_BET)]
+        self.initial_deal()
     
-    players_turn(dealer_face_up_card)
-    dealer_turn()
-    resolve()
+
+    def initial_deal(self):
+        for i in range(2): #Initla round, deals 2 cards to players.
+            for index, player in enumerate(game.players):
+                card = game.shoe.draw()
+                player.hands[0].add_card(card)
+            if i == 0: #Initial Round, deals one card to dealer
+                dealer_face_up_card = game.shoe.draw()
+                game.dealer.hands = [Hand()]
+                game.dealer.hands[0].add_card(dealer_face_up_card)
+                    
+
+        for card in game.dealer.hands[0].cards:
+            print(f"Dealer Faceup Card: {card.display_card()}")
+        
+        self.players_turn(dealer_face_up_card)
+        self.dealer_turn()
+        self.resolve()
         
             #Split Check Testing
-    player1 = game.players[0]
     # 
     # player1.hands[0].check_value()
     # print(player1.hands[0].check_black_jack())
@@ -77,102 +79,102 @@ def initial_deal():
     # print(game.shoe.shoeCount())
 
 
-def players_turn(dealer_face_up_card):
-    # print(dealer_face_up_card.value)
-    for index, player in enumerate(game.players):
-        for hand_index, hand in enumerate(player.hands):
-            for card in hand.cards:
-                print(f"player {index} : {card.display_card()}")
-            print(f"Player {index} : Total Value = {hand.check_value()}")
-            while hand.finished == False:
-                decision = hand.basic_strategy(dealer_face_up_card)
-                print(decision)
-                match decision:
-                    case "stay":
-                        hand.finish_turn()
-                    case "hit":
+    def players_turn(self, dealer_face_up_card):
+        # print(dealer_face_up_card.value)
+        for index, player in enumerate(game.players):
+            for hand_index, hand in enumerate(player.hands):
+                for card in hand.cards:
+                    print(f"player {index} : {card.display_card()}")
+                print(f"Player {index} : Total Value = {hand.check_value()}")
+                while hand.finished == False:
+                    decision = hand.basic_strategy(dealer_face_up_card)
+                    print(decision)
+                    match decision:
+                        case "stay":
+                            hand.finish_turn()
+                        case "hit":
+                            new_card = game.shoe.draw()
+                            hand.add_card(new_card)
+                            print(f"New Card : {new_card.display_card()}")
+                            hand.check_value()
+                        case "double":
+                            new_card = game.shoe.draw()
+                            hand.add_card(new_card)
+                            print(f"New Card : {new_card.display_card()}")
+                            hand.check_value()
+                            hand.finish_turn()
+                        case "bust":
+                            hand.finish_turn()
+                        case 'blackjack':
+                            hand.finish_turn()
+                        case 'split':
+                            player.split_hand(MIN_BET)
+                            new_card = game.shoe.draw()
+                            hand.add_card(new_card)
+                            print(f'New card {new_card.display_card()}')
+                            hand.check_value()
+                        case 'splitAces':
+                            player.split_hand(MIN_BET)
+                            new_card = game.shoe.draw()
+                            hand.add_card(new_card)
+                            print(f"Split Ace, only one card: {new_card.display_card()}")
+                            hand.finish_turn()
+                        case 'singleAce':
+                            new_card = game.shoe.draw()
+                            hand.add_card(new_card)
+                            print(f"Split Ace, only one card: {new_card.display_card()}")
+                            hand.check_value()
+                            hand.finish_turn()
+
+                print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
+
+    def dealer_turn(self):
+        print('\ndealer turn')
+        if self.check_all_player_busted():
+            print('All players busted. Dealer Win')
+        else:
+            dealer_hand = game.dealer.hands[0]
+            print(f"Dealer Total Value = {dealer_hand.check_value()}")
+
+            while dealer_hand.finished == False:
+                dealer_decision = dealer_hand.dealer_strategy()
+                print(dealer_decision)
+                match dealer_decision:
+                    case 'stay':
+                        dealer_hand.finish_turn()
+                    case 'hit':
                         new_card = game.shoe.draw()
-                        hand.add_card(new_card)
+                        dealer_hand.add_card(new_card)
+                        dealer_hand.check_value()
                         print(f"New Card : {new_card.display_card()}")
-                        hand.check_value()
-                    case "double":
-                        new_card = game.shoe.draw()
-                        hand.add_card(new_card)
-                        print(f"New Card : {new_card.display_card()}")
-                        hand.check_value()
-                        hand.finish_turn()
-                    case "bust":
-                        hand.finish_turn()
+                    case 'bust':
+                        dealer_hand.finish_turn()
                     case 'blackjack':
-                        hand.finish_turn()
-                    case 'split':
-                        player.split_hand(MIN_BET)
-                        new_card = game.shoe.draw()
-                        hand.add_card(new_card)
-                        print(f'New card {new_card.display_card()}')
-                        hand.check_value()
-                    case 'splitAces':
-                        player.split_hand(MIN_BET)
-                        new_card = game.shoe.draw()
-                        hand.add_card(new_card)
-                        print(f"Split Ace, only one card: {new_card.display_card()}")
-                        hand.finish_turn()
-                    case 'singleAce':
-                        new_card = game.shoe.draw()
-                        hand.add_card(new_card)
-                        print(f"Split Ace, only one card: {new_card.display_card()}")
-                        hand.check_value()
-                        hand.finish_turn()
+                        dealer_hand.finish_turn()
 
-            print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
+            print(f"Hand Finished. Dealer End with {dealer_hand.handvalue} {dealer_decision}")
 
-def dealer_turn():
-    print('\ndealer turn')
-    if check_all_player_busted():
-        print('All players busted. Dealer Win')
-    else:
+    def check_all_player_busted(self):
+        return all(hand.busted for player in game.players for hand in player.hands)
+
+    def resolve(self):
+        print('\n\nResolving')
         dealer_hand = game.dealer.hands[0]
-        print(f"Dealer Total Value = {dealer_hand.check_value()}")
-
-        while dealer_hand.finished == False:
-            dealer_decision = dealer_hand.dealer_strategy()
-            print(dealer_decision)
-            match dealer_decision:
-                case 'stay':
-                    dealer_hand.finish_turn()
-                case 'hit':
-                    new_card = game.shoe.draw()
-                    dealer_hand.add_card(new_card)
-                    dealer_hand.check_value()
-                    print(f"New Card : {new_card.display_card()}")
-                case 'bust':
-                    dealer_hand.finish_turn()
-                case 'blackjack':
-                    dealer_hand.finish_turn()
-
-        print(f"Hand Finished. Dealer End with {dealer_hand.handvalue} {dealer_decision}")
-
-def check_all_player_busted():
-    return all(hand.busted for player in game.players for hand in player.hands)
-
-def resolve():
-    print('\n\nResolving')
-    dealer_hand = game.dealer.hands[0]
-    dealer_end_value = dealer_hand.handvalue
-    dealer_busted = dealer_hand.busted
-    for index, player in enumerate(game.players):
-        for hand_index, hand in enumerate(player.hands):
-            if not hand.busted:
-                if dealer_busted:
-                    print(f'Dealer Busted! Player {index} - hand {hand_index} won with {hand.handvalue}')
-                elif hand.handvalue > dealer_end_value:
-                    print(f'Player {index} - hand {hand_index} won with {hand.handvalue} over dealer {dealer_end_value}')
-                elif hand.handvalue == dealer_end_value:
-                    print(f'Player {index} - hand {hand_index} pushes with {hand.handvalue} and dealer {dealer_end_value}')
+        dealer_end_value = dealer_hand.handvalue
+        dealer_busted = dealer_hand.busted
+        for index, player in enumerate(game.players):
+            for hand_index, hand in enumerate(player.hands):
+                if not hand.busted:
+                    if dealer_busted:
+                        print(f'Dealer Busted! Player {index} - hand {hand_index} won with {hand.handvalue}')
+                    elif hand.handvalue > dealer_end_value:
+                        print(f'Player {index} - hand {hand_index} won with {hand.handvalue} over dealer {dealer_end_value}')
+                    elif hand.handvalue == dealer_end_value:
+                        print(f'Player {index} - hand {hand_index} pushes with {hand.handvalue} and dealer {dealer_end_value}')
+                    else:
+                        print(f'Player {index} - hand {hand_index} loses with {hand.handvalue} with dealer {dealer_end_value}')
                 else:
-                    print(f'Player {index} - hand {hand_index} loses with {hand.handvalue} with dealer {dealer_end_value}')
-            else:
-                print(f'Player {index} - hand {hand_index} busted!! Dealer ended up with {dealer_end_value}')
+                    print(f'Player {index} - hand {hand_index} busted!! Dealer ended up with {dealer_end_value}')
 
 
 MIN_BET = 25
@@ -195,9 +197,8 @@ game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 
-for index, player in enumerate(game.players):
-    player.hands = [Hand(bet = MIN_BET)]
-initial_deal()
 
+
+game.game_start()
 
 
