@@ -32,7 +32,7 @@ class Hand:
             return False
         card1 = self.cards[0]
         card2 = self.cards[1]
-        if any(value in {5, 10, 11} for value in (card1, card2)):
+        if any(value in {5, 10, 11} for value in (card1.value, card2.value)):
             return False
         return len(self.cards) == 2 and card1.display == card2.display
 
