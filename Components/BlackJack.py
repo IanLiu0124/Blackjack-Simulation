@@ -107,6 +107,18 @@ def players_turn(dealer_face_up_card):
                         hand.finish_turn()
                     case 'split':
                         player.split_hand(MIN_BET)
+                    case 'splitAces':
+                        player.split_hand(MIN_BET)
+                        new_card = game.shoe.draw()
+                        hand.add_card(new_card)
+                        print(f"Split Ace, only one card: {new_card.display_card()}")
+                        hand.finish_turn()
+                    case 'singleAce':
+                        new_card = game.shoe.draw()
+                        hand.add_card(new_card)
+                        print(f"Split Ace, only one card: {new_card.display_card()}")
+                        hand.finish_turn()
+
             print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
 
 def dealer_turn():
@@ -170,11 +182,11 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 1
+PLAYERCOUNT = 5
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
-# game.shoe.shuffleCards()
+game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 

@@ -2,7 +2,7 @@ from Card import Card
 
 class Deck:
     def __init__(self):
-        self.cards = self.test_deck()
+        self.cards = self.generate_deck()
     
     def generate_deck(self):
         suits = ['Spade', 'Heart', 'Club', 'Diamond']

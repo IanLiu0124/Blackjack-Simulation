@@ -32,7 +32,7 @@ class Hand:
             return False
         card1 = self.cards[0]
         card2 = self.cards[1]
-        if any(value in {5, 10} for value in (card1, card2)):
+        if any(value in {5, 10, 11} for value in (card1, card2)):
             return False
         return len(self.cards) == 2 and card1.display == card2.display
 
@@ -59,6 +59,9 @@ class Hand:
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
     
     def basic_strategy(self, dealer_card):
+        if len(self.cards) == 1:
+            if self.card[0].display == 'A':
+                return 'singleAce'
         if self.check_black_jack():
             return 'blackjack'
         elif self.check_double_Aces():
@@ -67,7 +70,9 @@ class Hand:
         if self.check_bust():
             self.busted = True
             return 'bust'
-        if self.splittable():
+        if self.check_double_Aces():
+            return 'splitAces'
+        elif self.splittable():
             if self.handvalue == 16:
                 return 'split'
             elif dealer_card.value < 7 and  dealer_card.value >= 2 and self.handvalue in [12, 14, 18]:
