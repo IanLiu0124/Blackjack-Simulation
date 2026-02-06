@@ -8,6 +8,7 @@ class Shoe:
     def __init__(self, numOfDecks):
         self.numOfDecks = numOfDecks
         self.shoeCards = self.generateShoe()
+        self.cut_card = 40
 
     def generateShoe(self):
         cards = []
@@ -43,7 +44,7 @@ class Shoe:
             swappingIndex = randint(0, len(self.shoeCards) - (amountOfCardsPerShuffle)) #after taking out the cards, shoecard index is decreased by however many amountOfCardsPerShuffle is. Therefore, * 2 takes in account of that.
             for card in reversed(cardsToSwap):
                 self.shoeCards.insert(swappingIndex, card) #This should insert card at the swapping index. Reverse is used as originally it would reverse the index
-                
+        self.insert_cut_card()
 
     def draw(self):
         drawnCard = self.shoeCards.pop()
@@ -54,4 +55,9 @@ class Shoe:
     def shoeCount(self):
         return len(self.shoeCards)
                             
+    def insert_cut_card(self):
+        insert_index = len(self.shoeCards) * (self.cut_card - 1 / 100) #-1 because index starts at 0
+        CUT_CARD = Card('CUT_CARD', 'CUT_CARD', 0)
+        self.shoeCards.insert(insert_index, CUT_CARD)
+        
         

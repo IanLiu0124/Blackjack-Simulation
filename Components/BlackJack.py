@@ -16,6 +16,7 @@ class BlacJackGame:
         self.current_players = []
         self.dealer = Dealer()
         self.game_state = False #False = Game Over, True = Game Still Going. 
+
          
 
     def initial_round(self):
