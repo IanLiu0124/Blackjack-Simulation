@@ -98,6 +98,15 @@ class Hand:
             return 'hit'
         return 'stay'
     
+    def dealer_strategy(self):
+        if self.check_black_jack():
+            return 'blackjack'
+        if self.handvalue < 17:
+            return 'hit'
+        elif self.handvalue > 21:
+            return 'bust'
+        else:
+            return 'stay'
 
 
     def check_bust(self):
