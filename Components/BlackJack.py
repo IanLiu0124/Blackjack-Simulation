@@ -96,23 +96,24 @@ class BlacJackGame:
                             new_card = game.shoe.draw()
                             hand.add_card(new_card)
                             print(f"New Card : {new_card.display_card()}")
-                            hand.check_value()
+                            # hand.check_value()
                         case "double":
                             new_card = game.shoe.draw()
                             hand.add_card(new_card)
                             print(f"New Card : {new_card.display_card()}")
-                            hand.check_value()
+                            # hand.check_value()
                             hand.finish_turn()
                         case "bust":
                             hand.finish_turn()
                         case 'blackjack':
+                            hand.blackjack = True
                             hand.finish_turn()
                         case 'split':
                             player.split_hand(MIN_BET)
                             new_card = game.shoe.draw()
                             hand.add_card(new_card)
                             print(f'New card {new_card.display_card()}')
-                            hand.check_value()
+                            # hand.check_value()
                         case 'splitAces':
                             player.split_hand(MIN_BET)
                             new_card = game.shoe.draw()
@@ -123,7 +124,7 @@ class BlacJackGame:
                             new_card = game.shoe.draw()
                             hand.add_card(new_card)
                             print(f"Split Ace, only one card: {new_card.display_card()}")
-                            hand.check_value()
+                            # hand.check_value()
                             hand.finish_turn()
 
                 print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
@@ -150,6 +151,7 @@ class BlacJackGame:
                     case 'bust':
                         dealer_hand.finish_turn()
                     case 'blackjack':
+                        dealer_hand.blackjack = True
                         dealer_hand.finish_turn()
 
             print(f"Hand Finished. Dealer End with {dealer_hand.handvalue} {dealer_decision}")
@@ -164,7 +166,14 @@ class BlacJackGame:
         dealer_busted = dealer_hand.busted
         for index, player in enumerate(game.players):
             for hand_index, hand in enumerate(player.hands):
-                if not hand.busted:
+                if dealer_hand.blackjack:
+                    if hand.blackjack:
+                        print(f"Player {index} - hand {hand_index} blackjack but Dealer also has blackjack! It's a Push!")
+                    else:
+                        print(f"Player {index} - hand {hand_index} lose! Dealer Has a Blackjack!")
+                elif hand.blackjack:
+                        print(f"Player {index} - hand {hand_index} has a blackjack! Player Win!")
+                elif not hand.busted:
                     if dealer_busted:
                         print(f'Dealer Busted! Player {index} - hand {hand_index} won with {hand.handvalue}')
                     elif hand.handvalue > dealer_end_value:
