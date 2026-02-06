@@ -60,7 +60,7 @@ class Hand:
     
     def basic_strategy(self, dealer_card):
         if len(self.cards) == 1:
-            if self.card[0].display == 'A':
+            if self.cards[0].display == 'A':
                 return 'singleAce'
         if self.check_black_jack():
             return 'blackjack'

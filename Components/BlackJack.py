@@ -81,7 +81,7 @@ def players_turn(dealer_face_up_card):
     # print(dealer_face_up_card.value)
     for index, player in enumerate(game.players):
         for hand_index, hand in enumerate(player.hands):
-            for card in player.hands[0].cards:
+            for card in hand.cards:
                 print(f"player {index} : {card.display_card()}")
             print(f"Player {index} : Total Value = {player.hands[0].check_value()}")
             while hand.finished == False:
@@ -182,10 +182,10 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 5
+PLAYERCOUNT = 10
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
-game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
+game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
 game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
