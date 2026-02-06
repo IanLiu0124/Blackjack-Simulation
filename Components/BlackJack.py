@@ -53,6 +53,7 @@ def initial_deal():
     
     players_turn(dealer_face_up_card)
     dealer_turn()
+    resolve()
         
             #Split Check Testing
     player1 = game.players[0]
@@ -106,8 +107,7 @@ def players_turn(dealer_face_up_card):
                         hand.finish_turn()
                     case 'split':
                         hand.finish_turn()
-            print(f"Hand Finished. Player {index} End with {hand.handvalue} {decision}\n",
-                  f"Player hand bust status: {hand.busted} \n")
+            print(f"\nHand Finished. Player {index} End with {hand.handvalue} {decision}\n")
 
 def dealer_turn():
     print('\ndealer turn')
@@ -137,18 +137,23 @@ def check_all_player_busted():
     return all(hand.busted for player in game.players for hand in player.hands)
 
 def resolve():
-    dealer_end_value = game.dealer.hands[0].handvalue
+    print('\n\nResolving')
+    dealer_hand = game.dealer.hands[0]
+    dealer_end_value = dealer_hand.handvalue
+    dealer_busted = dealer_hand.busted
     for index, player in enumerate(game.players):
         for hand_index, hand in enumerate(player.hands):
-            if not hand.busted: 
-                if hand.handvalue > dealer_end_value:
-                    print(f'Player {index} - hand {hand_index} won with {hand.hand_value} over dealer {dealer_end_value}')
+            if not hand.busted:
+                if dealer_busted:
+                    print(f'Dealer Busted! {index} - hand {hand_index} won with {hand.handvalue}')
+                elif hand.handvalue > dealer_end_value:
+                    print(f'Player {index} - hand {hand_index} won with {hand.handvalue} over dealer {dealer_end_value}')
                 elif hand.handvalue == dealer_end_value:
-                    print(f'Player {index} - hand {hand_index} pushes with {hand.hand_value} and dealer {dealer_end_value}')
+                    print(f'Player {index} - hand {hand_index} pushes with {hand.handvalue} and dealer {dealer_end_value}')
                 else:
-                    print(f'Player {index} - hand {hand_index} loses with {hand.hand_value} with dealer {dealer_end_value}')
+                    print(f'Player {index} - hand {hand_index} loses with {hand.handvalue} with dealer {dealer_end_value}')
             else:
-                print(f'Player {index} - hand {hand_index} busted with {hand.hand_value}')
+                print(f'Player {index} - hand {hand_index} busted!! Dealer ended up with {dealer_end_value}')
 
 
 MIN_BET = 25
@@ -163,12 +168,12 @@ BET_SPREAD = {
     9 : 10,
     10 : 9
 }
-PLAYERCOUNT = 2
+PLAYERCOUNT = 5
 PLAYER_BANKROLL = 500
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SINGLE_DECK, PLAYERCOUNT)
 game.shoe.shuffleCards()
-print(game.shoe.shoeCount())
+# print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
 
 for index, player in enumerate(game.players):

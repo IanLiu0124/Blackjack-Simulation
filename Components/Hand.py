@@ -104,6 +104,7 @@ class Hand:
         if self.handvalue < 17:
             return 'hit'
         elif self.handvalue > 21:
+            self.busted = True
             return 'bust'
         elif self.handvalue >= 17:
             return 'stay'
