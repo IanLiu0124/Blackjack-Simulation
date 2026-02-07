@@ -7,17 +7,19 @@ from random import randint
 class Shoe:
     def __init__(self, numOfDecks):
         self.numOfDecks = numOfDecks
-        self.shoeCards = self.generateShoe()
+        self.shoeCards = []
         self.cut_card = 40
         self.cut_card_drawn = False
+        self.shoe_change_amount = 0
 
     def generateShoe(self):
         cards = []
+        print('Generating New Shoe')
         for deck in range(self.numOfDecks):
             deck = Deck()
             deck.generate_deck
             cards.extend(deck.cards)
-        return cards
+        self.shoeCards = cards
     
     def generateTestShoe(self):
         #This shoe will give 1 player blackjack and dealer 20
@@ -33,6 +35,7 @@ class Shoe:
             print(card.display_card())
 
     def shuffleCards(self):
+        self.generateShoe()
         shuffleTimes = self.numOfDecks * 2000 
         for shuffle in range(1, shuffleTimes + 1):
             amountOfCardsPerShuffle = randint(1, 10) #Goes up to 10
@@ -51,8 +54,10 @@ class Shoe:
     def draw(self):
         drawnCard = self.shoeCards.pop()
         if drawnCard.display == "CUT_CARD":
+            print('SHOE CARD DRAWN')
             self.cut_card_drawn = True
-            new_card = self.shoeCard.pop()
+            new_card = self.shoeCards.pop()
+            self.shoe_change_amount += 1
             return new_card
         # person: Player | Dealer
         # person.add_card(drawnCard)
@@ -66,5 +71,6 @@ class Shoe:
         print(int(insert_index))
         CUT_CARD = Card('CUT_CARD', 'CUT_CARD', 0)
         self.shoeCards.insert(int(insert_index), CUT_CARD)
+        self.cut_card_drawn = False
         
         

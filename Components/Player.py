@@ -7,6 +7,7 @@ class Player:
         self.wins = 0
         self.loses = 0
         self.pushes = 0
+        self.blackjack_count = 0
 
 
     def add_card(self, card: Card):
@@ -91,12 +92,12 @@ class Player:
         else:
             self.push += 1
 
-    def win(self, bet):
-        self.bankroll += bet
+    def win(self):
+        # self.bankroll += bet
         self.wins += 1
 
-    def lose(self, bet):
-        self.bankroll -= bet
+    def lose(self):
+        # self.bankroll -= bet
         self.loses += 1
 
     def push(self):
