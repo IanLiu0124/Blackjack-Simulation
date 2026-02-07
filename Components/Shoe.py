@@ -14,7 +14,7 @@ class Shoe:
 
     def generateShoe(self):
         cards = []
-        print('Generating New Shoe')
+        # print('Generating New Shoe')
         for deck in range(self.numOfDecks):
             deck = Deck()
             deck.generate_deck
@@ -54,7 +54,7 @@ class Shoe:
     def draw(self):
         drawnCard = self.shoeCards.pop()
         if drawnCard.display == "CUT_CARD":
-            print('SHOE CARD DRAWN')
+            # print('SHOE CARD DRAWN')
             self.cut_card_drawn = True
             new_card = self.shoeCards.pop()
             self.shoe_change_amount += 1
@@ -68,7 +68,6 @@ class Shoe:
                             
     def insert_cut_card(self):
         insert_index = len(self.shoeCards) * ((self.cut_card - 1) / 100) #-1 because index starts at 0
-        print(int(insert_index))
         CUT_CARD = Card('CUT_CARD', 'CUT_CARD', 0)
         self.shoeCards.insert(int(insert_index), CUT_CARD)
         self.cut_card_drawn = False

@@ -93,10 +93,13 @@ class Hand:
             return 'stay'
         if len(self.cards) == 2:    
             if self.handvalue == 11:
+                self.double_bet()
                 return 'double'
             elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
+                self.double_bet()
                 return 'double'
             elif self.handvalue == 10 and dealer_card.value <= 9:
+                self.double_bet()
                 return 'double'
             if self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
                 return 'hit'
@@ -114,6 +117,60 @@ class Hand:
             return 'bust'
         elif self.handvalue >= 17:
             return 'stay'
+        
+    
+    def basic_strategy_h1213(self, dealer_card):
+        self.check_value()
+        if len(self.cards) == 1:
+            if self.cards[0].display == 'A':
+                return 'singleAce'
+        if self.check_black_jack():
+            return 'blackjack'
+        elif self.check_double_Aces():
+            return 'split'
+        if self.check_bust():
+            self.busted = True
+            return 'bust'
+        if self.check_double_Aces():
+            return 'splitAces'
+        elif self.splittable():
+            if self.handvalue == 16:
+                return 'split'
+            elif dealer_card.value < 7 and  dealer_card.value >= 2 and self.handvalue in [12, 14, 18]:
+                return 'split'
+            elif dealer_card.value == 7 and self.handvalue == 14:
+                return 'split'
+            elif dealer_card.value == 7 and self.handvalue == 18:
+                return 'stay'
+            elif dealer_card.value in [8, 9] and self.handvalue == 18:
+                return 'split'
+            elif dealer_card.value in  [4, 5, 6] and self.handvalue == 8:
+                return 'split'
+            elif dealer_card.value >= 2 and dealer_card.value <= 7 and self.handvalue in [4, 6, 12]:
+                return 'split'
+
+        elif self.handvalue > 17:
+            return 'stay'
+        if len(self.cards) == 2:    
+            if self.handvalue == 11:
+                self.double_bet()
+                return 'double'
+            elif self.handvalue == 9 and dealer_card.value <= 6 and dealer_card.value >= 3:
+                self.double_bet()
+                return 'double'
+            elif self.handvalue == 10 and dealer_card.value <= 9:
+                self.double_bet()
+                return 'double'
+            if self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
+                return 'hit'
+        elif self.handvalue in [12, 13] and dealer_card.value ==  2:
+            return 'hit'
+        elif self.handvalue == 12 and dealer_card.value == 3:
+            return 'hit'
+        elif self.handvalue < 11 or self.handvalue < 17 and dealer_card.value >= 7:
+            return 'hit'
+        return 'stay'        
+        
 
 
     def check_bust(self):
@@ -123,4 +180,7 @@ class Hand:
             return True
         else:
             return False
+    
+    def double_bet(self):
+        self.bet *= 2
             

@@ -92,13 +92,19 @@ class Player:
         else:
             self.push += 1
 
-    def win(self):
+    def win(self, bet):
         # self.bankroll += bet
         self.wins += 1
+        self.bankroll += bet
 
-    def lose(self):
+    def lose(self, bet):
         # self.bankroll -= bet
         self.loses += 1
+        self.bankroll -= bet
+    def bj_win(self, bet):
+        self.wins += 1
+        self.blackjack_count +=1
+        self.bankroll += bet * 1.5
 
     def push(self):
         self.pushes += 1
