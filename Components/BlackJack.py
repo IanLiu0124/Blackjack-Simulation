@@ -41,8 +41,15 @@ class BlacJackGame:
         print(f"Game went through {self.shoe.shoe_change_amount} shoes")
         total_game = ( total_loss + total_wins + total_push ) 
         win_percent = total_wins / total_game
+        blackjack_percent = total_blackjack / total_game
+        stat = {
+            "total_game":total_game,
+            "win_percent":win_percent,
+            "total_blackjack":total_blackjack,
+            "blackjact_percent":blackjack_percent
+        }
 
-        print(f'\nTotal Game: {total_game}\nWIN RATE: {win_percent:.2f}\nTotal player blackjack: {total_blackjack}')
+        print(f'\nTotal Game: {stat["total_game"]}\nWIN RATE: {stat["win_percent"]:.2f}\nTotal player blackjack: {stat["total_blackjack"]}\nBlackJack Percent: {stat["blackjact_percent"]:.2f}')
 
 
     
