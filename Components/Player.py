@@ -9,6 +9,12 @@ class Player:
         self.pushes = 0
         self.blackjack_count = 0
         self.blackjack_push = 0
+        self.double_amount = 0
+        self.double_win = 0
+        self.double_push_fromBJ = 0
+        self.double_push = 0
+        self.split_amount = 0
+        self.split_win = 0
 
 
     def add_card(self, card: Card):

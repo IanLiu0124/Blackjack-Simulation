@@ -11,6 +11,8 @@ class Shoe:
         self.cut_card = 40
         self.cut_card_drawn = False
         self.shoe_change_amount = 0
+        self.running_count = 0
+        self.true_count = 0
 
     def generateShoe(self):
         cards = []

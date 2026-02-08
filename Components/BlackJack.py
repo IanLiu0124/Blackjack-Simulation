@@ -33,26 +33,47 @@ class BlacJackGame:
         total_push = 0
         total_blackjack = 0
         total_blackjackpush = 0 
+        total_double_hands = 0
+        total_double_push = 0
+        total_double_pushBJ = 0
+        total_double_wins = 0
         for index, player in enumerate(self.players):
             total_wins += player.wins
             total_loss +=player.loses
             total_push += player.pushes
             total_blackjack += player.blackjack_count
             total_blackjackpush += player.blackjack_push
+            total_double_hands += player.double_amount
+            total_double_push += player.double_push
+            total_double_pushBJ += player.double_push_fromBJ
+            total_double_wins += player.double_win
+            print(total_double_hands)
             print(f'\nPlayer {index + 1} -  Wins : {player.wins} Lose : {player.loses} Push : {player.pushes}\nEnding Balance is {player.bankroll}')
         print(f"Game went through {self.shoe.shoe_change_amount} shoes")
         total_game = ( total_loss + total_wins + total_push ) 
-        win_percent = total_wins / total_game
-        blackjack_percent = total_blackjack / total_game
+        win_percent = total_wins / total_game * 100
+        blackjack_percent = (total_blackjack / total_game) * 100
+        total_double_loss = total_double_hands - ( total_double_wins + total_double_pushBJ + total_double_push)
+        double_win_percent = (
+            total_double_wins / total_double_hands
+            if total_double_hands > 0
+            else 0
+        ) * 100
         stat = {
             "total_game":total_game,
             "win_percent":win_percent,
             "total_blackjack":total_blackjack,
             "blackjack_push": total_blackjackpush,
-            "blackjact_percent":blackjack_percent
+            "blackjact_percent":blackjack_percent,
+            "doubled_hands": total_double_hands,
+            "doubled_win" : total_double_wins,
+            "double_percent" : double_win_percent
         }
 
-        print(f'\nTotal Games: {stat["total_game"]}\nWIN RATE: {stat["win_percent"]:.3f}\nTotal player blackjack: {stat["total_blackjack"]}\nBlackJack Percent: {stat["blackjact_percent"]:.3f}\nBlackJack Psuh: {stat["blackjack_push"]}')
+        print(f'\nTotal Games: {stat["total_game"]}\nWIN RATE: {stat["win_percent"]:.3f}%\
+              \nTotal player blackjack: {stat["total_blackjack"]}\nBlackJack Percent: {stat["blackjact_percent"]:.2f}%\
+              \nBlackJack Psuh: {stat["blackjack_push"]}\
+              \nDouble Win Percent {stat["double_percent"]:.2f}%')
 
 
     
@@ -128,7 +149,7 @@ class BlacJackGame:
                     print(f"player {index} : {card.display_card()}")
                 print(f"Player {index} : Total Value = {hand.check_value()}")
                 while hand.finished == False:
-                    decision = hand.basic_strategy_h1213(dealer_face_up_card)
+                    decision = hand.basic_strategy_stay16(dealer_face_up_card)
                     print(decision)
                     match decision:
                         case "stay":
@@ -142,7 +163,7 @@ class BlacJackGame:
                             new_card = self.shoe.draw()
                             hand.add_card(new_card)
                             print(f"New Card : {new_card.display_card()}")
-                            # hand.check_value()
+                            player.double_amount += 1
                             hand.finish_turn()
                         case "bust":
                             hand.finish_turn()
@@ -215,8 +236,13 @@ class BlacJackGame:
                         player.blackjack_push += 1
                         print(f"Player {index} - hand {hand_index} blackjack but Dealer also has blackjack! It's a Push!")
                     else:
-                        player.lose(hand.bet)
-                        print(f"Player {index} - hand {hand_index} lose! Dealer Has a Blackjack!")
+                        if hand.doubled:
+                            player.lose(hand.bet / 2)
+                            player.double_push += 1
+                            print(f"Player {index} - hand {hand_index} lose! Dealer Has a Blackjack!")
+                        else:
+                            player.lose(hand.bet)
+                            print(f"Player {index} - hand {hand_index} lose! Dealer Has a Blackjack!")
                 elif hand.blackjack:
                         player.bj_win(hand.bet)
                         
@@ -224,12 +250,18 @@ class BlacJackGame:
                 elif not hand.busted:
                     if dealer_busted:
                         player.win(hand.bet)
+                        if hand.doubled:
+                            player.double_win += 1
                         print(f'Dealer Busted! Player {index} - hand {hand_index} won with {hand.handvalue}')
                     elif hand.handvalue > dealer_end_value:
                         player.win(hand.bet)
+                        if hand.doubled:
+                            player.double_win += 1  
                         print(f'Player {index} - hand {hand_index} won with {hand.handvalue} over dealer {dealer_end_value}')
                     elif hand.handvalue == dealer_end_value:
                         player.push()
+                        if hand.doubled:
+                            player.double_push += 1
                         print(f'Player {index} - hand {hand_index} pushes with {hand.handvalue} and dealer {dealer_end_value}')
                     else:
                         player.lose(hand.bet)
@@ -258,6 +290,6 @@ game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
 # game.shoe.shuffleCards()
 # print(game.shoe.shoeCount())
 game.players[0].set_bankroll(PLAYER_BANKROLL)
-game.game_start(100000)
+game.game_start(20000)
 
 
