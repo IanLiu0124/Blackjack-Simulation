@@ -16,7 +16,7 @@ class BlacJackGame:
         self.players = [Player() for _ in range(numPlayers)]
         self.current_players = []
         self.dealer = Dealer()
-        self.game_state = False #False = Game Over, True = Game Still Going. 
+        self.rounds = 0
         self.stat = {}
          
 
@@ -55,8 +55,8 @@ class BlacJackGame:
             print(f'\nPlayer {index + 1} -  Wins : {player.wins} Lose : {player.loses} Push : {player.pushes}\nEnding Balance is {player.bankroll}')
         print(f"Game went through {self.shoe.shoe_change_amount} shoes")
         total_games = ( total_loss + total_wins + total_push ) 
-        win_percent = total_wins / total_games * 100
-        blackjack_percent = (total_blackjack / total_games) * 100
+        win_percent = total_wins / self.rounds * 100
+        blackjack_percent = (total_blackjack / self.rounds) * 100
         total_double_loss = total_double_hands - ( total_double_wins + total_double_pushBJ + total_double_push)
         double_win_percent = (
             total_double_wins / total_double_hands
@@ -65,6 +65,7 @@ class BlacJackGame:
         ) * 100
         self.stat = {
             "total_game":total_games,
+            "total_rounds": self.rounds,
             "win_percent":round(win_percent, 2),
             "bank_roll": bank_roll,
             "total_blackjack":total_blackjack,
@@ -104,8 +105,8 @@ class BlacJackGame:
             player.hands = [Hand(bet = MIN_BET)]
         # self.initial_deal()
         self.shoe.shuffleCards()
-        rounds = 0
-        while rounds < iterations:
+        
+        while self.rounds < iterations:
             self.reset_hands()
             print("\n---New Round--- \n")
             if self.shoe.cut_card_drawn:
@@ -113,9 +114,9 @@ class BlacJackGame:
                 self.start_round()
             else:
                 self.start_round()
-            rounds += 1
+            self.rounds += 1
         self.statistics()
-        print(f'Rounds {rounds}')
+        print(f'Rounds {self.rounds}')
 
 
 
@@ -150,7 +151,7 @@ class BlacJackGame:
                     print(f"player {index} : {card.display_card()}")
                 print(f"Player {index} : Total Value = {hand.check_value()}")
                 while hand.finished == False:
-                    decision = hand.basic_strategy(dealer_face_up_card)
+                    decision = hand.basic_strategy_h1213(dealer_face_up_card)
                     print(decision)
                     match decision:
                         case "stay":
@@ -288,6 +289,6 @@ PLAYERCOUNT = 1
 PLAYER_BANKROLL = 0
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
-game.game_start(20000)
+game.game_start(2000)
 
 

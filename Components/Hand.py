@@ -111,6 +111,7 @@ class Hand:
         return 'stay'
     
     def dealer_strategy(self):
+        self.check_value()
         if self.check_black_jack():
             return 'blackjack'
         if self.handvalue < 17:
@@ -274,13 +275,6 @@ class Hand:
             return 'hit'
         return 'stay'
     
-
-
-
-
-
-
-
 
 
 
