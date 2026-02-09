@@ -81,7 +81,7 @@ class BlacJackGame:
               \nWIN RATE: {self.stat["win_percent"]:.3f}%\
               \nTotal player blackjack: {self.stat["total_blackjack"]}\nBlackJack Percent: {self.stat["blackjact_percent"]:.2f}%\
               \nBlackJack Psuh: {self.stat["blackjack_push"]}\
-              \nDouble Win Percent {self.stat["double_percent"]:.2f}%')
+              \nDouble Win Percent {self.stat["double_win_percent"]:.2f}%')
         self.record_stat()
 
 
