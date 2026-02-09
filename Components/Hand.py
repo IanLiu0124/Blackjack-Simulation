@@ -5,6 +5,7 @@ class Hand:
         self.bet =  kwargs.get('bet', 0)
         self.cards = []
         self.handvalue = 0
+        self.strategy = ""
         self.blackjack = False
         self.finished = False
         self.busted = False
@@ -61,6 +62,7 @@ class Hand:
         return (len(current_cards) == 2 and any("A" in card.display for card in current_cards) and any(card.value == 10 for card in current_cards))
     
     def basic_strategy(self, dealer_card):
+        self.strategy = "Basic Strategy"
         self.check_value()
         if len(self.cards) == 1:
             if self.cards[0].display == 'A':
@@ -122,6 +124,7 @@ class Hand:
     
 
     def basic_strategy_h1213(self, dealer_card):
+        self.strategy = "Basic Strategy Hit 12 / 13 at 3, 2"
         self.check_value()
         if len(self.cards) == 1:
             if self.cards[0].display == 'A':
@@ -174,6 +177,7 @@ class Hand:
         return 'stay'        
         
     def basic_strategy_stay16(self, dealer_card):
+        self.strategy = "Basic Strategy stay at 16"
         self.check_value()
         if len(self.cards) == 1:
             if self.cards[0].display == 'A':
@@ -222,6 +226,7 @@ class Hand:
         return 'stay'
     
     def no_bust_strategy(self, dealer_card):
+        self.strategy = "No Bust Strategy"
         self.check_value()
         if len(self.cards) == 1:
             if self.cards[0].display == 'A':

@@ -38,10 +38,13 @@ class BlacJackGame:
         total_double_push = 0
         total_double_pushBJ = 0
         total_double_wins = 0
+        
         for index, player in enumerate(self.players):
+            player_strategy = player.hands[0].strategy
             total_wins += player.wins
             total_loss +=player.loses
             total_push += player.pushes
+            bank_roll = player.bankroll
             total_blackjack += player.blackjack_count
             total_blackjackpush += player.blackjack_push
             total_double_hands += player.double_amount
@@ -51,9 +54,9 @@ class BlacJackGame:
             print(total_double_hands)
             print(f'\nPlayer {index + 1} -  Wins : {player.wins} Lose : {player.loses} Push : {player.pushes}\nEnding Balance is {player.bankroll}')
         print(f"Game went through {self.shoe.shoe_change_amount} shoes")
-        total_game = ( total_loss + total_wins + total_push ) 
-        win_percent = total_wins / total_game * 100
-        blackjack_percent = (total_blackjack / total_game) * 100
+        total_games = ( total_loss + total_wins + total_push ) 
+        win_percent = total_wins / total_games * 100
+        blackjack_percent = (total_blackjack / total_games) * 100
         total_double_loss = total_double_hands - ( total_double_wins + total_double_pushBJ + total_double_push)
         double_win_percent = (
             total_double_wins / total_double_hands
@@ -61,17 +64,21 @@ class BlacJackGame:
             else 0
         ) * 100
         self.stat = {
-            "total_game":total_game,
-            "win_percent":win_percent,
+            "total_game":total_games,
+            "win_percent":round(win_percent, 2),
+            "bank_roll": bank_roll,
             "total_blackjack":total_blackjack,
             "blackjack_push": total_blackjackpush,
-            "blackjact_percent":blackjack_percent,
+            "blackjact_percent": round(blackjack_percent, 2),
             "doubled_hands": total_double_hands,
             "doubled_win" : total_double_wins,
-            "double_percent" : double_win_percent
+            "double_win_percent" : round(double_win_percent, 2),
+            "player_strategy" : player_strategy
         }
 
-        print(f'\nTotal Games: {self.stat["total_game"]}\nWIN RATE: {self.stat["win_percent"]:.3f}%\
+        print(f'\nTotal Games: {self.stat["total_game"]}\n\
+              \nPlayer Strategy: {self.stat["player_strategy"]}\
+              \nWIN RATE: {self.stat["win_percent"]:.3f}%\
               \nTotal player blackjack: {self.stat["total_blackjack"]}\nBlackJack Percent: {self.stat["blackjact_percent"]:.2f}%\
               \nBlackJack Psuh: {self.stat["blackjack_push"]}\
               \nDouble Win Percent {self.stat["double_percent"]:.2f}%')
@@ -143,7 +150,7 @@ class BlacJackGame:
                     print(f"player {index} : {card.display_card()}")
                 print(f"Player {index} : Total Value = {hand.check_value()}")
                 while hand.finished == False:
-                    decision = hand.no_bust_strategy(dealer_face_up_card)
+                    decision = hand.basic_strategy(dealer_face_up_card)
                     print(decision)
                     match decision:
                         case "stay":
@@ -281,6 +288,6 @@ PLAYERCOUNT = 1
 PLAYER_BANKROLL = 0
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
-game.game_start(200)
+game.game_start(20000)
 
 
