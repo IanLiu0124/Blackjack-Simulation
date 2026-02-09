@@ -24,12 +24,11 @@ class Shoe:
         self.shoeCards = cards
     
     def generateTestShoe(self):
-        #This shoe will give 1 player blackjack and dealer 20
         cards = []
         deck = Deck()
-        # deck.test_deck()
+        deck.test_deck()
         cards.extend(deck.cards)
-        return cards
+        self.shoeCards = cards
 
     
     def showShoe(self):

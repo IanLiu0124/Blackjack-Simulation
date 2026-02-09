@@ -3,6 +3,7 @@ from Dealer import Dealer
 from Card import Card
 from Shoe import Shoe
 from Hand import Hand
+from modules import json
 
 
 SINGLE_DECK = 1
@@ -16,7 +17,7 @@ class BlacJackGame:
         self.current_players = []
         self.dealer = Dealer()
         self.game_state = False #False = Game Over, True = Game Still Going. 
-
+        self.stat = {}
          
 
     def initial_round(self):
@@ -59,7 +60,7 @@ class BlacJackGame:
             if total_double_hands > 0
             else 0
         ) * 100
-        stat = {
+        self.stat = {
             "total_game":total_game,
             "win_percent":win_percent,
             "total_blackjack":total_blackjack,
@@ -70,11 +71,25 @@ class BlacJackGame:
             "double_percent" : double_win_percent
         }
 
-        print(f'\nTotal Games: {stat["total_game"]}\nWIN RATE: {stat["win_percent"]:.3f}%\
-              \nTotal player blackjack: {stat["total_blackjack"]}\nBlackJack Percent: {stat["blackjact_percent"]:.2f}%\
-              \nBlackJack Psuh: {stat["blackjack_push"]}\
-              \nDouble Win Percent {stat["double_percent"]:.2f}%')
+        print(f'\nTotal Games: {self.stat["total_game"]}\nWIN RATE: {self.stat["win_percent"]:.3f}%\
+              \nTotal player blackjack: {self.stat["total_blackjack"]}\nBlackJack Percent: {self.stat["blackjact_percent"]:.2f}%\
+              \nBlackJack Psuh: {self.stat["blackjack_push"]}\
+              \nDouble Win Percent {self.stat["double_percent"]:.2f}%')
+        self.record_stat()
 
+
+    def record_stat(self):
+        records_file = "Records.json"
+        records_list = []
+        try:
+            with open(records_file, 'r') as j:
+                records_list = json.load(j)
+        except:
+            records_list = []
+        records_list.append(self.stat)
+        
+        with open(records_file, "w") as f:
+            json.dump(records_list, f, indent = 4)
 
     
     def game_start(self, iterations):
@@ -113,32 +128,11 @@ class BlacJackGame:
                 self.dealer.hands[0].add_card(dealer_face_up_card)
                     
 
-        # for card in self.dealer.hands[0].cards:
-        #     print(f"Dealer Faceup Card: {card.display_card()}")
         
         self.players_turn(dealer_face_up_card)
         self.dealer_turn()
         self.resolve()
         
-            #Split Check Testing
-    # 
-    # player1.hands[0].check_value()
-    # print(player1.hands[0].check_black_jack())
-    # print(player1.hands[0].splittable())
-    # player1.split_hand(MIN_BET)
-
-    # for index, hand in enumerate(player1.hands):
-    #     for card in hand.cards:
-    #         print(f"Hand {index} : {card.display_card()}")
-
-        #Double Aces into split
-    # print(player1.hands[0].check_double_Aces())
-    # print(player1.hands[0].splittable())
-    # player1.split_hand(MIN_BET) 
-    # for index, hand in enumerate(player1.hands):
-    #     for card in hand.cards:
-    #         print(f"Hand {index} : {card.display_card()}")
-    # print(game.shoe.shoeCount())
 
 
     def players_turn(self, dealer_face_up_card):
@@ -149,7 +143,7 @@ class BlacJackGame:
                     print(f"player {index} : {card.display_card()}")
                 print(f"Player {index} : Total Value = {hand.check_value()}")
                 while hand.finished == False:
-                    decision = hand.basic_strategy_stay16(dealer_face_up_card)
+                    decision = hand.no_bust_strategy(dealer_face_up_card)
                     print(decision)
                     match decision:
                         case "stay":
@@ -287,9 +281,6 @@ PLAYERCOUNT = 1
 PLAYER_BANKROLL = 0
 INSURANCE_BET = MIN_BET / 2
 game = BlacJackGame(SIX_DECK, PLAYERCOUNT)
-# game.shoe.shuffleCards()
-# print(game.shoe.shoeCount())
-game.players[0].set_bankroll(PLAYER_BANKROLL)
-game.game_start(20000)
+game.game_start(200)
 
 
