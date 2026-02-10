@@ -60,6 +60,12 @@ class Shoe:
             new_card = self.shoeCards.pop()
             self.shoe_change_amount += 1
             return new_card
+        else:
+            if drawnCard.value <= 6:
+                self.running_count += 1
+            elif drawnCard.value in [10, 11]:
+                self.running_count -= 1
+        self.true_count = int(self.running_count / (self.shoeCount() / 52 )) #52 is the number of cards per deck.
         # person: Player | Dealer
         # person.add_card(drawnCard)
         return drawnCard

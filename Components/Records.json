@@ -306,5 +306,18 @@
         "doubled_win": 111,
         "double_win_percent": 50.23,
         "player_strategy": "Basic Strategy Hit 12 / 13 at 3, 2"
+    },
+    {
+        "total_game": 2046,
+        "total_rounds": 2000,
+        "win_percent": 43.05,
+        "bank_roll": -1050.0,
+        "total_blackjack": 101,
+        "blackjack_push": 5,
+        "blackjact_percent": 5.05,
+        "doubled_hands": 199,
+        "doubled_win": 112,
+        "double_win_percent": 56.28,
+        "player_strategy": "Basic Strategy Hit 12 / 13 at 3, 2"
     }
 ]
