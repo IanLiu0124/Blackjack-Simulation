@@ -37,6 +37,7 @@ class Shoe:
 
     def shuffleCards(self):
         self.generateShoe()
+        self.reset_count()
         shuffleTimes = self.numOfDecks * 2000 
         for shuffle in range(1, shuffleTimes + 1):
             amountOfCardsPerShuffle = randint(1, 10) #Goes up to 10
@@ -78,5 +79,9 @@ class Shoe:
         CUT_CARD = Card('CUT_CARD', 'CUT_CARD', 0)
         self.shoeCards.insert(int(insert_index), CUT_CARD)
         self.cut_card_drawn = False
+    
+    def reset_count(self):
+        self.running_count = 0
+        self.true_count = 0
         
         
