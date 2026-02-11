@@ -133,12 +133,10 @@ class Hand:
         if self.check_black_jack():
             return 'blackjack'
         elif self.check_double_Aces():
-            return 'split'
-        if self.check_bust():
+            return 'splitAces'
+        elif self.check_bust():
             self.busted = True
             return 'bust'
-        if self.check_double_Aces():
-            return 'splitAces'
         elif self.splittable():
             if self.handvalue == 16:
                 return 'split'

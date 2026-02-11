@@ -3,6 +3,8 @@ from Hand import Hand
 class Player:
     def __init__(self, bankroll = 0):
         self.bankroll = bankroll
+        self.highest_bank_roll = 0
+        self.lowest_bank_roll = 0
         self.hands = []
         self.wins = 0
         self.loses = 0
@@ -103,14 +105,22 @@ class Player:
         # self.bankroll += bet
         self.wins += 1
         self.bankroll += bet
+        if self.bankroll > self.highest_bank_roll:
+            self.highest_bank_roll = self.bankroll
 
     def lose(self, bet):
         # self.bankroll -= bet
         self.loses += 1
         self.bankroll -= bet
+        if self.bankroll < self.lowest_bank_roll:
+            self.lowest_bank_roll = self.bankroll
+
+
     def bj_win(self, bet):
         self.wins += 1
         self.bankroll += bet * 1.5
+        if self.bankroll > self.highest_bank_roll:
+            self.highest_bank_roll = self.bankroll        
 
     def push(self):
         self.pushes += 1

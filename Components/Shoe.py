@@ -8,7 +8,7 @@ class Shoe:
     def __init__(self, numOfDecks):
         self.numOfDecks = numOfDecks
         self.shoeCards = []
-        self.cut_card = 40
+        self.cut_card = 20
         self.cut_card_drawn = False
         self.shoe_change_amount = 0
         self.running_count = 0
@@ -66,7 +66,7 @@ class Shoe:
                 self.running_count += 1
             elif drawnCard.value in [10, 11]:
                 self.running_count -= 1
-        self.true_count = int(self.running_count / (self.shoeCount() / 52 )) #52 is the number of cards per deck.
+        self.true_count = round(self.running_count / (self.shoeCount() / 52 )) #52 is the number of cards per deck.
         # person: Player | Dealer
         # person.add_card(drawnCard)
         return drawnCard

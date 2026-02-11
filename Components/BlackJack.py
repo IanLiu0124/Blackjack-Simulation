@@ -45,12 +45,15 @@ class BlacJackGame:
             total_loss +=player.loses
             total_push += player.pushes
             bank_roll = player.bankroll
+            highest_bank = player.highest_bank_roll
+            lowest_bank = player.lowest_bank_roll
             total_blackjack += player.blackjack_count
             total_blackjackpush += player.blackjack_push
             total_double_hands += player.double_amount
             total_double_push += player.double_push
             total_double_pushBJ += player.double_push_fromBJ
             total_double_wins += player.double_win
+
             print(total_double_hands)
             print(f'\nPlayer {index + 1} -  Wins : {player.wins} Lose : {player.loses} Push : {player.pushes}\nEnding Balance is {player.bankroll}')
         print(f"Game went through {self.shoe.shoe_change_amount} shoes")
@@ -68,6 +71,8 @@ class BlacJackGame:
             "total_rounds": self.rounds,
             "win_percent":round(win_percent, 2),
             "bank_roll": bank_roll,
+            "highest_bank" : highest_bank,
+            "lowest_bank" : lowest_bank,
             "total_blackjack":total_blackjack,
             "blackjack_push": total_blackjackpush,
             "blackjact_percent": round(blackjack_percent, 2),
@@ -122,7 +127,11 @@ class BlacJackGame:
 
     def reset_hands(self):
             for index, player in enumerate(self.players):
-                player.hands = [Hand(bet = MIN_BET)]
+                if self.shoe.true_count in BET_SPREAD:
+                    bet = BET_SPREAD[self.shoe.true_count] * MIN_BET
+                else:
+                    bet = MIN_BET
+                player.hands = [Hand(bet = bet)]
 
 
     def start_round(self):
@@ -134,12 +143,15 @@ class BlacJackGame:
                 dealer_face_up_card = self.shoe.draw()
                 self.dealer.hands = [Hand()]
                 self.dealer.hands[0].add_card(dealer_face_up_card)
-                    
-
         
         self.players_turn(dealer_face_up_card)
         self.dealer_turn()
         self.resolve()
+        print(f"Running Count : {self.shoe.running_count}\nTrue Count: {self.shoe.true_count}")
+        print(f"Player Bet: {self.players[0].hands[0].bet}")
+        # input()
+
+        
         
 
 
@@ -197,6 +209,8 @@ class BlacJackGame:
     def dealer_turn(self):
         print('\ndealer turn')
         if self.check_all_player_busted():
+            dealer_hand = self.dealer.hands[0]
+            dealer_hand.check_value()
             print('All players busted. Dealer Win')
             return
         else:
@@ -276,14 +290,14 @@ class BlacJackGame:
 MIN_BET = 25
 BET_SPREAD = {
     1 : 1,
-    3 : 2,
-    4 : 3,
-    5 : 4,
-    6 : 5,
-    7 : 6,
-    8 : 9,
-    9 : 10,
-    10 : 9
+    2 : 2,
+    3 : 3,
+    4 : 4,
+    5 : 5,
+    6 : 6,
+    7: 7,
+    8 : 8,
+    9 : 9
 }
 PLAYERCOUNT = 1
 PLAYER_BANKROLL = 0
